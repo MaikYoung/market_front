@@ -27,7 +27,7 @@ export class RequestsInterceptor implements HttpInterceptor {
         return Observable.fromPromise(this.tokenService.getToken()).mergeMap(token => {
 
             if(token){
-                requestToSend = req.clone({headers: req.headers.set("Authorization", `JWT ${token}`)});
+                requestToSend = req.clone({headers: req.headers.set("Authorization", `Token ${token}`)});
             }
                 return next.handle(requestToSend).catch(response => {
                     if (response instanceof HttpErrorResponse && response.status == HTTP_401_UNAUTHORIZED) {
