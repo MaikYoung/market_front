@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { TokenService } from '../../providers/token-service';
 import { UserService } from '../../providers/user-service';
 import { TripService } from '../../providers/trip-service';
