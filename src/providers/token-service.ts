@@ -3,8 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { APIService } from './api-service';
 
-import * as jwtDecode from 'jwt-decode';
-
 export const TOKEN = "token";
 
 @Injectable()
@@ -43,14 +41,8 @@ export class TokenService extends APIService {
       return this.storage.set(TOKEN, token);
     }
 
-    getUser() {
-      return new Promise((resolve, reject) => {
-        this.getToken().then(token => {
-          resolve(jwtDecode(token));
-        }).catch(error => {
-          reject(error);
-        });
-      });
+    public getUser() {
+      return this.http.get(this.getApiUrl('current_user'))
     }
 
     // refresh() {

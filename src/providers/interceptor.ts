@@ -28,8 +28,10 @@ export class RequestsInterceptor implements HttpInterceptor {
 
             if(token){
                 requestToSend = req.clone({headers: req.headers.set("Authorization", `Token ${token}`)});
+                
             }
                 return next.handle(requestToSend).catch(response => {
+                    console.log("header", response)
                     if (response instanceof HttpErrorResponse && response.status == HTTP_401_UNAUTHORIZED) {
                         this.tokenService.setToken(null);
                         // this.app.getRootNav().push('login-page');

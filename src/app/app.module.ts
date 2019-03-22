@@ -16,10 +16,11 @@ import { APIService } from '../providers/api-service';
 import { TripService } from '../providers/trip-service';
 import { NotificationService } from '../providers/notification-service';
 import { IonicStorageModule } from '@ionic/storage';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RequestsInterceptor } from '../providers/interceptor';
 import { MedalsService } from '../providers/medals-service';
 import { PointsService } from '../providers/points-service';
+import { LoginPage } from '../pages/login/login';
 
 @NgModule({
   declarations: [
@@ -27,11 +28,14 @@ import { PointsService } from '../providers/points-service';
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage
+    TabsPage,
+    LoginPage
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot(),
+    HttpClientModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -39,7 +43,8 @@ import { PointsService } from '../providers/points-service';
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage
+    TabsPage,
+    LoginPage
   ],
   providers: [
     StatusBar,

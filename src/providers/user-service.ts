@@ -17,11 +17,13 @@ export class UserService extends APIService {
         super(http);
     }
 
-    public userLogin(data){
+    public userLogin(data:any){
         return this.http.post(this.getApiUrl('login'), data).do(response => {
             const responseToken = response as any; 
-            const token = responseToken.token || null;
+            const token = responseToken.key || null;
+            console.log("en el login", responseToken.key)
             if (token) {
+                
                 this.tokenService.setToken(token); 
             }
         });

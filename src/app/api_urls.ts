@@ -2,11 +2,12 @@ import { API_URL } from "./constants";
 
 export const URLS = {
     //users
-    login:                          API_URL + '/user_auth/login',
+    login:                          API_URL + '/user_auth/login/',
     logout:                         API_URL + '/user_auth/logout',
     users_list:                     API_URL + '/users',
     user_detail:                    API_URL + '/user',
     register:                       API_URL + '/usercreate',
+    current_user:                   API_URL + '/user_auth/user',
     
     //trips
     trips_list:                     API_URL + '/trips',
