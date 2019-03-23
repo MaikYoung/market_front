@@ -13,7 +13,10 @@ export class TripService extends APIService {
         protected http: HttpClient,
     ) {super(http);}
 
-    public getAllTripsByUsersFollowing(){
+    public getAllTripsByUsersFollowing(url=null){
+        if(url){
+            return this.http.get(url)
+        }
         return this.http.get(`${this.getApiUrl('trips_by_following')}`)
     }
 
@@ -21,7 +24,10 @@ export class TripService extends APIService {
         return this.http.get(`${this.getApiUrl('trips_im_mate')}`)
     }
 
-    public getAllTrips(){
+    public getAllTrips(url=null){
+        if(url){
+            return this.http.get(url)
+        }
         return this.http.get(`${this.getApiUrl('trips_list')}`)
     }
 
@@ -71,6 +77,10 @@ export class TripService extends APIService {
 
     public reportTrip(id:number){
         return this.http.post(`${this.getApiUrl('trip_detail')}/${id}/report`, {})
+    }
+
+    public nextPage(url:string){
+        
     }
 
 }

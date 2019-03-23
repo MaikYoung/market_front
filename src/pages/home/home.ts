@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { TokenService } from '../../providers/token-service';
 import { UserService } from '../../providers/user-service';
@@ -8,10 +8,10 @@ import { TripService } from '../../providers/trip-service';
   selector: 'page-home',
   templateUrl: 'home.html'
 })
-export class HomePage {
+export class HomePage implements OnInit{
   public user:any = {}
-  public tripsFollowing:any;
-  public allTrips:any
+  public tripsFollowing:any = []
+  public nextPage:any;
 
   constructor
   (
@@ -20,40 +20,40 @@ export class HomePage {
     public userService: UserService,
     public tripService: TripService
     ) {
-     this.loadAllData()
       
-  }
+      }
+
+      ngOnInit(){
+        this.currentUser()
+      }
+
   currentUser(){
     this.tokenService.getUser().subscribe(data => {
       this.userService.getUser(data['pk']).subscribe(user => {
         this.user = user
+        this.loadTrips()
         console.log(this.user)
       }, error => {
         console.log("errorgettingcurrentuser", error);
-        
       })
     })
   }
 
-  loadAllData(){
-    this.currentUser()
-    if(this.user){
-      this.tripService.getAllTripsByUsersFollowing().subscribe(trips => {
-        this.tripsFollowing = trips
-        console.log(this.tripsFollowing);
-        
-      }, error => {
-        console.log("errorgettingtripsbyfollowing", error);
-        
-      })
-      this.tripService.getAllTrips().subscribe(trips => {
-        this.allTrips = trips
-        console.log(this.allTrips);
-        
-      }, error => {
-        console.log("errorgettingalltrips");
-        
-      })
-    }
+  loadTrips(event=null){
+    if(event && this.nextPage == null){return event.enable(false)}
+    let call = (!event) ? this.tripService.getAllTripsByUsersFollowing() : this.tripService.getAllTripsByUsersFollowing(this.nextPage)
+    call.subscribe(trips => { 
+      for(let trip of trips['results']){
+        this.tripsFollowing.push(trip)
+      }
+      this.nextPage = trips['next']
+      if(event){event.complete()}
+    }, error => {
+      console.log("errorgettingtripsbyfollowing", error);
+      
+    })
+    
   }
+
+
 }

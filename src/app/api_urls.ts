@@ -7,7 +7,7 @@ export const URLS = {
     users_list:                     API_URL + '/users',
     user_detail:                    API_URL + '/user',
     register:                       API_URL + '/usercreate',
-    current_user:                   API_URL + '/user_auth/user',
+    current_user:                   API_URL + '/user_auth/user/',
     
     //trips
     trips_list:                     API_URL + '/trips',
