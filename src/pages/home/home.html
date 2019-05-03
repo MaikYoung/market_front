@@ -1,38 +1,52 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <div *ngFor="let trip of tripsFollowing">
+    <ion-refresher slot="fixed" (ionRefresh)="refreshTrips($event)">
+        <ion-refresher-content 
+        refreshingText="..."></ion-refresher-content>
+    </ion-refresher>
+  <div *ngFor="let trip of tripsFollowing" class="box margin-bottom" padding>
+    <div class="user-line">
+      <ion-row>
+        <ion-col col-2>
+          <img src={{trip.user.profile_pic}} class="profile-pic">
+        </ion-col>
+        <ion-col col-5>
+            @{{trip.user.username}} 
+        </ion-col>
+        <ion-col col-5>
+            {{trip.user.trip_level}}
+        </ion-col>
+      </ion-row>
+    </div>
+    <div (click)="showDetail(true, trip.id)">
     <ion-row>
-      <ion-col col-2>
-        <img src={{trip.user.profile_pic}} >
-      </ion-col>
-      <ion-col col-5>
-          @{{trip.user.username}} 
-      </ion-col>
-      <ion-col col-5>
-          {{trip.user.trip_level}}
+      <ion-col col-12 text-center>
+          {{trip.from_to}}  ->  {{trip.destiny}} 
       </ion-col>
     </ion-row>
+      <div *ngIf="detail && detail.id == trip.id">
+        <ion-slides>
+          <ion-slide *ngFor="let image of detail.pictures">
+            <img src={{image.image}}>
+          </ion-slide>
+        </ion-slides>
+        {{detail.route}}
+        {{detail.views}}
+        {{detail.date_start}} - {{detail.date_end}} 
+        <ion-row>
+            <ion-col col-6> 
+              <ion-button (click)="giveLike(trip.id)">like</ion-button>  - {{detail.likes}}
+            </ion-col>
+        </ion-row>
+      </div>
     <ion-row>
-      <ion-col col-6>
-          {{trip.destiny}} 
-      </ion-col>
-      <ion-col col-6>
-          {{trip.kms}} kms
-      </ion-col>
+      {{trip.points}}
     </ion-row>
-    <ion-row>
-      IMAGENES
-    </ion-row>
-    <ion-row>
-      Like: {{trip.likes}}
-    </ion-row>
-    <br>
-    <br>
+  </div>
   </div>
   <ion-infinite-scroll threshold="100px" (ionInfinite)="loadTrips($event)">
     <ion-infinite-scroll-content>
